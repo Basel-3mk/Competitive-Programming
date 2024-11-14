@@ -1,4 +1,4 @@
-// Given string a and a pattern b, output the number of times b occures in a.
+// Given string a and pattern b, output the number of times b occures in a.
 
 // قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
 
