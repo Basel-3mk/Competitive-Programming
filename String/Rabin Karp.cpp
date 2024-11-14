@@ -39,9 +39,9 @@ ll power(int n, int p)
 
 int Rolling_Hash(string s)
 {
-  // s[0] * power(prime, 1) + s[1] * power(prime, 2) + ....... + s[n - 1] * power(prime, n).
-	
-  int n = s.size();
+	// s[0] * power(prime, 1) + s[1] * power(prime, 2) + ....... + s[n - 1] * power(prime, n).
+
+	int n = s.size();
 	ll ans = 0, prime_power = prime;
 	for (int i = 0; i < n; ++i)
 	{
@@ -65,20 +65,20 @@ void Solve()
 	else
 	{
 		ll text_hash = Rolling_Hash(a.substr(0, m)), pattern_hash = Rolling_Hash(b);
-		int ans = 0;
+		int ans = (text_hash == pattern_hash);
 		for (int i = 1; i + m - 1 < n; ++i)
 		{
-      // If text_hash equals pattern_hash, add 1 to the answer.
-			ans += (text_hash == pattern_hash);
-      
-      // 1. Remove the first current character in text_hash.
+			// 1. Remove the first current character in text_hash.
 			text_hash = (text_hash - (a[i - 1] - 'a' + 1) * prime + MOD) % MOD;
 
-      // 2. Divide text_hash by prime.
+			// 2. Divide text_hash by prime.
 			text_hash = text_hash * power(prime, MOD - 2) % MOD;
 
-      // 3. Add the last current character in text_hash.
+			// 3. Add the last current character in text_hash.
 			text_hash = (text_hash + (a[i + m - 1] - 'a' + 1) * power(prime, m)) % MOD;
+
+			// If text_hash equals pattern_hash, add 1 to the answer.
+			ans += (text_hash == pattern_hash);
 		}
 
 		cout << ans << endl;
