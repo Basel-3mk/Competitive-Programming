@@ -1,3 +1,5 @@
+// Given string a and pattern b, output the number of times b occures in a.
+
 // قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
 
 #include <bits/stdc++.h>
