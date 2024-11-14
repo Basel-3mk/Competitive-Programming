@@ -5,6 +5,11 @@
 
 // قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
 
+// We will make 2D segment tree.
+// The first dimension represents the ranges of the rows.
+// The second dimension represents the ranges of the columns.
+// So we will make a segment tree of rows, and each node of this segment tree is a segment tree of columns.
+
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
