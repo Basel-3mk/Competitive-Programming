@@ -1,4 +1,4 @@
-// Given n elements, and q queries, there's two type of operations:
+// Given n elements, and q queries, there's two types of operations:
 // 1. Update k-th index to u.
 // 2. Output the sum from a to b.
 // a, b, k are 1-base.
