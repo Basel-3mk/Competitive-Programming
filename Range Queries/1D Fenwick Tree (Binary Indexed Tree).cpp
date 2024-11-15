@@ -15,7 +15,7 @@ using namespace __gnu_pbds;
 using namespace chrono;
 
 #define endl '\n'
-#define ll unsigned long long
+#define ll long long
 
 template<typename data_type>
 using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
