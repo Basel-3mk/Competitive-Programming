@@ -3,8 +3,8 @@
 3. Strongly Connected Components (Kosaraju's Algorithm).
 4. Euler's Tour (Tour 1).
 5. Euler's Tour (Tour 2).
-8. Euler's Tour (Tour 3) with Graph and Segment Tree.
-9. Euler's Tour (Tour 3) with Graph and Fenwick Tree.
+8. Segment Tree for a Graph using Euler's Tour (Tour 3).
+9. Fenwick Tree for a Graph using Euler's Tour (Tour 3).
 10. Lowest Common Ancestor.
 11. Re-Rooting a Tree.
 12. Maximum Flow.
@@ -19,3 +19,9 @@
 21. Heavy Light Decomposition (Edges).
 22. Heavy Light Decomposition (Nodes).
 23. Merge Binary Lifting.
+24. 0-1 BFS.
+25. Dijkstra's Algorithm.
+26. Bellman Ford Algorithm.
+27. Floyd Warshall Algorithm.
+28. Kruskal's Algorithm.
+29. Prim's Algorithm.
