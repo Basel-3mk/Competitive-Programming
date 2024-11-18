@@ -3,8 +3,8 @@
 3. Strongly Connected Components (Kosaraju's Algorithm).
 4. Euler's Tour (Tour 1).
 5. Euler's Tour (Tour 2).
-8. Segment Tree for a Graph using Euler's Tour (Tour 3).
-9. Fenwick Tree for a Graph using Euler's Tour (Tour 3).
+8. Segment Tree for a Tree using Euler's Tour (Tour 3).
+9. Fenwick Tree for a Tree using Euler's Tour (Tour 3).
 10. Lowest Common Ancestor.
 11. Re-Rooting a Tree.
 12. Maximum Flow.
