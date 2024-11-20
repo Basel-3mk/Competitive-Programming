@@ -92,6 +92,9 @@ void Solve()
                 cout << d2 << ' ';
             cout << endl;
         }
+
+        for(int i = 1; i <= n; ++i)
+                cout << i << ' ' << sccn[i] << endl;
 }
 
 int32_t main()
