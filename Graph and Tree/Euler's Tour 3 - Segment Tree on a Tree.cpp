@@ -36,7 +36,7 @@ struct segment
 	segment(int n)
 	{
 		this->n = n;
-		st.resize(n * 4 + 1, 0);
+		st.resize(n * 4, 0);
 	}
 
 	void build(int s, int e, int node, const vector<int> &arr)
@@ -48,15 +48,15 @@ struct segment
 		}
 
 		int mid = (s + e) >> 1;
-		build(s, mid, 2 * node, arr);
-		build(mid + 1, e, 2 * node + 1, arr);
+		build(s, mid, 2 * node + 1, arr);
+		build(mid + 1, e, 2 * node + 2, arr);
 
-		st[node] = st[2 * node] + st[2 * node + 1];
+		st[node] = st[2 * node + 1] + st[2 * node + 2];
 	}
 
 	void build(const vector<int> &arr)
 	{
-		build(1, n, 1, arr);
+		build(0, n - 1, 0, arr);
 	}
 
 	ll query(int s, int e, int node, int rs, int re)
@@ -68,14 +68,14 @@ struct segment
 			return st[node];
 
 		int mid = (s + e) >> 1;
-		ll q1 = query(s, mid, 2 * node, rs, re);
-		ll q2 = query(mid + 1, e, 2 * node + 1, rs, re);
+		ll q1 = query(s, mid, 2 * node + 1, rs, re);
+		ll q2 = query(mid + 1, e, 2 * node + 2, rs, re);
 		return q1 + q2;
 	}
 
 	ll query(int rs, int re)
 	{
-		return query(1, n, 1, rs, re);
+		return query(0, n - 1, 0, rs, re);
 	}
 
 	void update(int s, int e, int node, int leaf, int val)
@@ -88,16 +88,16 @@ struct segment
 
 		int mid = (s + e) >> 1;
 		if (leaf <= mid)
-			update(s, mid, 2 * node, leaf, val);
+			update(s, mid, 2 * node + 1, leaf, val);
 		else
-			update(mid + 1, e, 2 * node + 1, leaf, val);
+			update(mid + 1, e, 2 * node + 2, leaf, val);
 
-		st[node] = st[2 * node] + st[2 * node + 1];
+		st[node] = st[2 * node + 1] + st[2 * node + 2];
 	}
 
 	void update(int leaf, int val)
 	{
-		update(1, n, 1, leaf, val);
+		update(0, n - 1, 0, leaf, val);
 	}
 };
 
@@ -122,7 +122,7 @@ void Solve()
 	in.assign(n + 1, 0);
 	out.assign(n + 1, 0);
 	a.assign(n + 1, 0);
-	timer = 0;
+	timer = -1;
 
 	for (int i = 1; i <= n; ++i)
 		cin >> a[i];
@@ -137,7 +137,7 @@ void Solve()
 	}
 
 	dfs(1, 0);
-	vector<int> ordered_array(n + 1); // This is the values of a sorted depending on in time.
+	vector<int> ordered_array(n); // This is the values of a sorted depending on in time.
 	for (int i = 1; i <= n; ++i)
 		ordered_array[in[i]] = a[i];
 
@@ -182,3 +182,4 @@ int32_t main()
 
 	return 0;
 }
+
