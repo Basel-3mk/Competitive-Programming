@@ -25,12 +25,12 @@ vector<pair<int, int>> b;
 vector<bool> v;
 vector<int> lt, dt;
 set<int> ap;
-int t;
+int timer;
 
 void dfs(int node, int par)
 {
 	v[node] = true;
-	lt[node] = dt[node] = t++;
+	lt[node] = dt[node] = timer++;
 
 	int childs = 0;
 	for (auto c : g[node])
@@ -59,14 +59,13 @@ void Solve()
 	int n, m;
 	cin >> n >> m;
 
-	// 1-base index.
 	g.assign(n + 1, {});
 	v.assign(n + 1, false);
-	dt.assign(n + 1, 0); // Distance Time.
-	lt.assign(n + 1, 0); // Lowest Time.
-	ap.clear(); // Articulation Points.
-	b.clear(); // Bridges.
-	t = 0;
+	dt.assign(n + 1, 0);
+	lt.assign(n + 1, 0);
+	ap.clear();
+	b.clear();
+	timer = 0;
 
 	for (int i = 0; i < m; ++i)
 	{
