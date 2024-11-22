@@ -56,6 +56,8 @@ int lca(int a, int b)
 	// For example: 16.
 	// If we start from LSB --> 01111 = 15 and we will never reach 16.
 	// If we start from MSB --> 10000 = 16 and we will always reach 16.
+	// Sometimes, starting from LSB or MSB will be correct.
+	// Such as the numbers with only ones like: 1, 3, 7, 15, 31. ((2 ^ n) - 1).
 	for (int i = 31; i >= 0; --i)
 		if ((delta >> i) & 1)
 			a = anc[a][i];
