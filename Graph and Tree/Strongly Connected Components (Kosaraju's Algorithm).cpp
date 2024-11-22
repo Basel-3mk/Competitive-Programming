@@ -51,13 +51,12 @@ void Solve()
 	int n, m;
 	cin >> n >> m;
 
-	// 1-base index.
 	g.assign(n + 1, {});
-	rg.assign(n + 1, {}); // Reversed Graph.
+	rg.assign(n + 1, {});
 	v.assign(n + 1, false);
-	scc.clear(); // Strongly Connected Components.
-	sccn.assign(n + 1, -1); // Strongly Connected Components Number.
-	topo.clear(); // Topological Sort.
+	scc.clear();
+	sccn.assign(n + 1, -1);
+	topo.clear();
 	cnt = 0;
 
 	for (int i = 0; i < m; ++i)
