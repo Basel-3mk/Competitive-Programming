@@ -3,7 +3,7 @@
 // The next q lines will give u and l.
 // For each query, output the number of nodes that are in the subtree of the node u, and the distance between the root and the node equals to l.
 
-// قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
+// The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
