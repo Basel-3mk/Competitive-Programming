@@ -1,6 +1,6 @@
 // Given string a and pattern b, output the number of times b occures in a.
 
-// قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
+// The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
