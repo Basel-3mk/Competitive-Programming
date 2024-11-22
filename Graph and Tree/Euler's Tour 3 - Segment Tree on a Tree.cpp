@@ -117,7 +117,6 @@ void Solve()
 	int n, q;
 	cin >> n >> q;
 
-	// 1-base index.
 	g.assign(n + 1, {});
 	tin.assign(n + 1, 0);
 	tout.assign(n + 1, 0);
