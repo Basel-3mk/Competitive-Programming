@@ -2,7 +2,7 @@
 // 1. Update the value of node s to value x.
 // 2. Output the sum of the subtree of node s.
 
-// قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
+// The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
