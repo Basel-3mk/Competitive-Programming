@@ -24,12 +24,12 @@ vector<vector<int>> g, scc;
 vector<bool> v;
 vector<int> lt, dt, sccn;
 stack<int> st;
-int t, cnt;
+int timer, cnt;
 
 void dfs(int node, int par)
 {
         v[node] = true;
-        lt[node] = dt[node] = t++;
+        lt[node] = dt[node] = timer++;
         st.push(node);
         for(auto c : g[node])
         {
@@ -65,14 +65,13 @@ void Solve()
         int n, m;
         cin >> n >> m;
 
-        // 1-base index.
         g.assign(n + 1, {});
         v.assign(n + 1, false);
-        dt.assign(n + 1, 0); // Distance Time.
-        lt.assign(n + 1, 0); // Lowest Time.
-        scc.clear(); // Strongly Connected Components.
-        sccn.assign(n + 1, -1); // Strongly Connected Components Number.
-        t = 0;
+        dt.assign(n + 1, 0);
+        lt.assign(n + 1, 0);
+        scc.clear();
+        sccn.assign(n + 1, -1);
+        timer = 0;
         cnt = 0;
 
         for (int i = 0; i < m; ++i)
