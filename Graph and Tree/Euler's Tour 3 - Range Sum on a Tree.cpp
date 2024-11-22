@@ -2,7 +2,7 @@
 // You have to process q queries, each query has root and val, you have to add val for every node that is in the subtree of root. 
 // Output the final value of every node.
 
-// قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
+// The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
