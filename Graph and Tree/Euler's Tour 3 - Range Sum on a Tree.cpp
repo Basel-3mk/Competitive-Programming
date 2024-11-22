@@ -44,7 +44,6 @@ void Solve()
 	int n, q;
 	cin >> n >> q;
 
-	// 1-base index.
 	g.assign(n + 1, {});
 	in.assign(n + 1, 0);
 	out.assign(n + 1, 0);
