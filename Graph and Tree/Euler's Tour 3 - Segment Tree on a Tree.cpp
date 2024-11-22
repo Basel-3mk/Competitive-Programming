@@ -25,7 +25,7 @@ int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
 vector<vector<int>> g;
-vector<int> in, out, a;
+vector<int> tin, tout, a;
 int timer;
 
 struct segment
@@ -103,13 +103,13 @@ struct segment
 
 void dfs(int node, int par)
 {
-	in[node] = ++timer;
+	tin[node] = ++timer;
 
 	for (auto c : g[node])
 		if (c != par)
 			dfs(c, node);
 
-	out[node] = timer;
+	tout[node] = timer;
 }
 
 void Solve()
@@ -119,8 +119,8 @@ void Solve()
 
 	// 1-base index.
 	g.assign(n + 1, {});
-	in.assign(n + 1, 0);
-	out.assign(n + 1, 0);
+	tin.assign(n + 1, 0);
+	tout.assign(n + 1, 0);
 	a.assign(n + 1, 0);
 	timer = -1;
 
@@ -137,12 +137,12 @@ void Solve()
 	}
 
 	dfs(1, 0);
-	vector<int> ordered_array(n); // This is the values of a sorted depending on in time.
+	vector<int> tinarr(n); // Sorted array of a, depending on tin.
 	for (int i = 1; i <= n; ++i)
-		ordered_array[in[i]] = a[i];
+		tinarr[tin[i]] = a[i];
 
 	segment tree(n);
-	tree.build(ordered_array);
+	tree.build(tinarr);
 
 	while (q--)
 	{
@@ -153,14 +153,14 @@ void Solve()
 		{
 			int s, x;
 			cin >> s >> x;
-			tree.update(in[s], x);
+			tree.update(tin[s], x);
 		}
 
 		else
 		{
 			int s;
 			cin >> s;
-			cout << tree.query(in[s], out[s]) << endl;
+			cout << tree.query(tin[s], tout[s]) << endl;
 		}
 	}
 }
