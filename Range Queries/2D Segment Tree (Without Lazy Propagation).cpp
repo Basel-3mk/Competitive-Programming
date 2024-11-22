@@ -3,7 +3,7 @@
 // The upper-left square has coordinates (1,1), and the lower-right square has coordinates (n,n).
 // Your task is to process q queries of the form: how many trees are inside a given rectangle in the forest?
 
-// قال رسول الله صلى الله عليه وسلم: "مَن تواضَعَ للهِ رَفَعَهُ".
+// The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 // We will make 2D segment tree.
 // The first dimension represents the ranges of the rows.
