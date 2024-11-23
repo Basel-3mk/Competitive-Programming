@@ -1,5 +1,5 @@
 // Given a weighted connected undirected graph with n nodes, and m edges (1-base index).
-// If there's negative cycle output -1.
+// If there's a negative cycle output -1.
 // Else output the shortest path from the node 1 to the other nodes.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
