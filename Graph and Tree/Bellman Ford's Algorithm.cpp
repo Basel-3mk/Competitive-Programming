@@ -1,4 +1,4 @@
-// Given a weighted connected undirected graph with n nodes, and m edges (1-base index).
+// Given a weighted connected directed graph with n nodes, and m edges (1-base index).
 // If there's a negative cycle output -1.
 // Else output the shortest path from the node 1 to the other nodes.
 
@@ -42,7 +42,6 @@ void Solve()
 		cin >> x >> y >> w;
 
 		g.push_back({ x, y, w });
-		g.push_back({ y, x, w });
 	}
 
 	dist[1] = 0;
