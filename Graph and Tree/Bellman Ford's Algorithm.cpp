@@ -2,6 +2,10 @@
 // If there's a negative cycle output -1.
 // Else output the shortest path from the node 1 to the other nodes.
 
+// Note: If there's any negative weight in an undirected graph, automatically the answer will be -1 (No solution).
+// But if there's a negative weight in a directed graph, then if there's a negative cycle then the answer will be -1 (No solution).
+// Else we use Bellman Ford's Algorithm, or Floyd Warshall's Algorithm to find the answer.
+
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
