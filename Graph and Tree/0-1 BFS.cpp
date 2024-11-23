@@ -1,4 +1,4 @@
-// Given a weighted undirected graph with n nodes, and m edges (1-base index).
+// Given a weighted connected undirected graph with n nodes, and m edges (1-base index).
 // Output the shortest path from the node 1 and other nodes.
 // Each weight is either 0 or 1.
 
