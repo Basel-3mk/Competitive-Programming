@@ -1,6 +1,6 @@
 // Given a weighted undirected graph with n nodes, and m edges (1-base index).
 // Output the shortest path from the node 1 and other nodes.
-// The weights are either 0 or 1.
+// Each weight is either 0 or 1.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
