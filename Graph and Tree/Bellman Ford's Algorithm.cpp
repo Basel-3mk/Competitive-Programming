@@ -48,7 +48,16 @@ void Solve()
 		g.push_back({ x, y, w });
 	}
 
+	// It should be 0 not INT_MIN, because we will add the dist of it to the dist of it's childs.
 	dist[1] = 0;
+	
+	// If the edges of the source node are the first in the edge list.
+	// Then the edges of the childs of the source node and so on.
+	// Then it is sorted (No need to relax the edges).
+	// But if it is not, we have to relax the edges, by iterating for n - 1 times.
+	// Because each dist of a node depends on the dist of an other node.
+	// If the dist of the other node is not calculated, then we cannot find out the dist of the current node.
+	// That's why we need to relax the edges.
 	for (int i = 0; i < n - 1; ++i)
 		for (auto edge : g)
 		{
