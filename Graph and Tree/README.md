@@ -1,12 +1,12 @@
-12. Maximum Flow.
-13. Resudial Networks and Augmenting Paths.
-14. Ford-Fulkerson Algorithm.
-15. Edmond-Karp Algorithm.
-16. Dinic's Algorithm.
-17. Trie and Graph.
-18. Eulerian trail.
-19. Centroid.
-20. Diameter.
-21. Heavy Light Decomposition (Edges).
-22. Heavy Light Decomposition (Nodes).
-23. Merge Binary Lifting.
+1. Maximum Flow.
+2. Resudial Networks and Augmenting Paths.
+3. Ford-Fulkerson Algorithm.
+4. Edmond-Karp Algorithm.
+5. Dinic's Algorithm.
+6. Trie and Graph.
+7. Eulerian trail.
+8. Centroid.
+9. Diameter.
+10. Heavy Light Decomposition (Edges).
+11. Heavy Light Decomposition (Nodes).
+12. Merge Binary Lifting.
