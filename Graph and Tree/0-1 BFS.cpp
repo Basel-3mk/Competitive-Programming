@@ -44,23 +44,23 @@ void Solve()
 		g[y].push_back(make_pair(x, w));
 	}
 
-	deque<pair<int, int>> dijk;
-	dijk.push_back(make_pair(0, 1)); // Weight 0, Node 1.
-	dist[1] = INT_MIN;
+	deque<int> dijk;
+	dijk.push_back(1); // Weight 0, Node 1.
+	dist[1] = 0;
 	while (dijk.size())
 	{
-		int current = dijk.front().first, node = dijk.front().second;
+		int node = dijk.front();
 		dijk.pop_front();
 
 		for (auto [c, w] : g[node])
-			if (current + w < dist[c])
+			if (dist[node] + w < dist[c])
 			{
-				dist[c] = current + w;
+				dist[c] = dist[node] + w;
 
 				if (w)
-					dijk.push_back(make_pair(dist[c], c));
+					dijk.push_back(c);
 				else
-					dijk.push_front(make_pair(dist[c], c));
+					dijk.push_front(c);
 			}
 	}
 
