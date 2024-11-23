@@ -1,6 +1,6 @@
 // Given a weighted connected directed graph with n nodes, and m edges (1-base index).
 // If there's a negative cycle, output IMPOSSIBLE.
-// Else, output the shortest path from the each node to the other nodes.
+// Else, output the shortest path from each node to the other nodes.
 // If there's no path between two nodes, output INF.
 
 // Note: If there's any negative weight in an undirected graph, automatically the answer will be -1 (No solution).
