@@ -24,7 +24,7 @@ mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
 int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
-vector<vector<pair<int, int>>> g;
+vector<vector<pair<int, bool>>> g;
 vector<int> dist;
 
 void Solve()
@@ -56,7 +56,6 @@ void Solve()
 			if (dist[node] + w < dist[c])
 			{
 				dist[c] = dist[node] + w;
-
 				if (w)
 					dijk.push_back(c);
 				else
