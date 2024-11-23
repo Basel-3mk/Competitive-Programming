@@ -1,6 +1,6 @@
 // Given a weighted connected directed graph with n nodes, and m edges (1-base index).
-// If there's a negative cycle output -1.
-// Else output the shortest path from the node 1 to the other nodes.
+// If there's a negative cycle, output IMPOSSIBLE.
+// Else, output the shortest path from the node 1 to the other nodes.
 
 // Note: If there's any negative weight in an undirected graph, automatically the answer will be -1 (No solution).
 // But if there's a negative weight in a directed graph, then if there's a negative cycle then the answer will be -1 (No solution).
@@ -79,7 +79,7 @@ void Solve()
 	}
 
 	if (neg_cycle)
-		cout << -1 << endl;
+		cout << "IMPOSSIBLE" << endl;
 
 	else
 	{
