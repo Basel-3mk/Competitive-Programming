@@ -20,7 +20,7 @@ mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
 int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
-int n, m, src, dst;
+int n, src, dst;
 vector<vector<int>> g;
 vector<array<int, 3>> edges;
 vector<int> lvl;
@@ -68,8 +68,12 @@ int augment_path(int node, int flow)
 
 			if (bottleneck)
 			{
-				edges[c][2] -= bottleneck;
-				edges[c ^ 1][2] += bottleneck;
+				// Forward edges have even indices.
+				// Back edges have odd indices.
+				// So when we want to remove value from one of them, then we have to add the same value to the complement of it.
+				// So to change from even to odd, or odd to even, we just use xor 1.
+				edges[c][2] -= bottleneck; 
+				edges[c ^ 1][2] += bottleneck; 
 				return bottleneck;
 			}
 		}
@@ -91,6 +95,7 @@ int max_flow()
 
 void Solve()
 {
+	int m;
 	cin >> n >> m >> src >> dst;
 
 	g.assign(n + 1, {});
