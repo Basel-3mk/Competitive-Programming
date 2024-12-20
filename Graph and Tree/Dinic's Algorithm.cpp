@@ -1,3 +1,6 @@
+// Given a directed weighted graph with n nodes and m edges.
+// Output the maximum flow from the node 1 to the node n.
+
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
@@ -20,12 +23,12 @@ mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
 int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
-int n, src, dst;
 vector<vector<int>> g;
 vector<array<int, 3>> edges;
-vector<int> lvl;
+vector<int> lvl, cur;
+int src, dst;
 
-bool lvl_graph()
+bool level_graph()
 {
 	fill(lvl.begin(), lvl.end(), -1);
 
@@ -38,11 +41,10 @@ bool lvl_graph()
 		int node = q.front();
 		q.pop();
 
-		for (auto c : g[node])
+		for (auto idx : g[node])
 		{
-			int x = edges[c][0], y = edges[c][1], w = edges[c][2];
-
-			if (lvl[y] == -1 and w)
+			int x = edges[idx][0], y = edges[idx][1], w = edges[idx][2];
+			if (w and lvl[y] == -1)
 			{
 				lvl[y] = lvl[x] + 1;
 				q.push(y);
@@ -53,27 +55,24 @@ bool lvl_graph()
 	return lvl[dst] != -1;
 }
 
-int augment_path(int node, int flow)
+int augment(int node, int flow)
 {
 	if (node == dst)
 		return flow;
 
-	for (auto c : g[node])
+	for (int &idx = cur[node]; idx < g[node].size(); ++idx)
 	{
-		int x = edges[c][0], y = edges[c][1], w = edges[c][2];
+		int edge_idx = g[node][idx];
+		int x = edges[edge_idx][0], y = edges[edge_idx][1], w = edges[edge_idx][2];
 
-		if (w and lvl[y] == lvl[x] + 1)
+		if (lvl[y] == lvl[x] + 1 and w)
 		{
-			int bottleneck = augment_path(y, min(flow, w));
+			int bottleneck = augment(y, min(flow, w));
 
 			if (bottleneck)
 			{
-				// Forward edges have even indices.
-				// Back edges have odd indices.
-				// So when we want to remove value from one of them, then we have to add the same value to the complement of it.
-				// So to change from even to odd, or odd to even, we just use xor 1.
-				edges[c][2] -= bottleneck; 
-				edges[c ^ 1][2] += bottleneck; 
+				edges[edge_idx][2] -= bottleneck;
+				edges[edge_idx ^ 1][2] += bottleneck;
 				return bottleneck;
 			}
 		}
@@ -82,42 +81,42 @@ int augment_path(int node, int flow)
 	return 0;
 }
 
-int max_flow()
-{
-	int ans = 0;
-
-	while (lvl_graph())
-		while (int flow = augment_path(src, INT_MAX))
-			ans += flow;
-
-	return ans;
-}
-
 void Solve()
 {
-	int m;
-	cin >> n >> m >> src >> dst;
+	int n, m;
+	cin >> n >> m;
 
 	g.assign(n + 1, {});
-	edges.assign(2 * m, {});
-	lvl.assign(n + 1, -1);
+	edges.clear();
+	lvl.resize(n + 1);
+	cur.resize(n + 1);
+	src = 1;
+	dst = n;
 
-	int cnt = 0;
+	int tracker = 0;
 	for (int i = 0; i < m; ++i)
 	{
 		int x, y, w;
 		cin >> x >> y >> w;
 
-		edges[cnt] = { x, y, w };
-		g[x].push_back(cnt);
-		cnt++;
+		g[x].push_back(tracker++);
+		edges.push_back({ x, y, w });
 
-		edges[cnt] = { y, x, 0 };
-		g[y].push_back(cnt);
-		cnt++;
+		g[y].push_back(tracker++);
+		edges.push_back({ y, x, 0 });
 	}
 
-	cout << max_flow() << endl;
+	ll ans = 0;
+	level_graph();
+
+	while (level_graph())
+	{
+		fill(cur.begin(), cur.end(), 0);
+		while (int flow = augment(src, INT_MAX))
+			ans += flow;
+	}
+
+	cout << ans << endl;
 }
 
 int32_t main()
