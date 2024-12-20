@@ -107,8 +107,6 @@ void Solve()
 	}
 
 	ll ans = 0;
-	level_graph();
-
 	while (level_graph())
 	{
 		fill(cur.begin(), cur.end(), 0);
