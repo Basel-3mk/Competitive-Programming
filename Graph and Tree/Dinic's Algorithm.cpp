@@ -28,7 +28,7 @@ vector<array<int, 3>> edges;
 vector<int> lvl, cur;
 int src, dst;
 
-bool level_graph()
+bool bfs()
 {
 	fill(lvl.begin(), lvl.end(), -1);
 
@@ -55,7 +55,7 @@ bool level_graph()
 	return lvl[dst] != -1;
 }
 
-int augment(int node, int flow)
+int dfs(int node, int flow)
 {
 	if (node == dst)
 		return flow;
@@ -67,7 +67,7 @@ int augment(int node, int flow)
 
 		if (lvl[y] == lvl[x] + 1 and w)
 		{
-			int bottleneck = augment(y, min(flow, w));
+			int bottleneck = dfs(y, min(flow, w));
 
 			if (bottleneck)
 			{
@@ -107,10 +107,10 @@ void Solve()
 	}
 
 	ll ans = 0;
-	while (level_graph())
+	while (bfs())
 	{
 		fill(cur.begin(), cur.end(), 0);
-		while (int flow = augment(src, INT_MAX))
+		while (int flow = dfs(src, INT_MAX))
 			ans += flow;
 	}
 
