@@ -60,10 +60,10 @@ int dfs(int node, int flow)
 	if (node == dst)
 		return flow;
 
-	for (int &idx = cur[node]; idx < g[node].size(); ++idx)
+	for (int &gidx = cur[node]; gidx < g[node].size(); ++gidx)
 	{
-		int edge_idx = g[node][idx];
-		int x = edges[edge_idx][0], y = edges[edge_idx][1], w = edges[edge_idx][2];
+		int idx = g[node][gidx];
+		int x = edges[idx][0], y = edges[idx][1], w = edges[idx][2];
 
 		if (lvl[y] == lvl[x] + 1 and w)
 		{
@@ -71,8 +71,8 @@ int dfs(int node, int flow)
 
 			if (bottleneck)
 			{
-				edges[edge_idx][2] -= bottleneck;
-				edges[edge_idx ^ 1][2] += bottleneck;
+				edges[idx][2] -= bottleneck;
+				edges[idx ^ 1][2] += bottleneck;
 				return bottleneck;
 			}
 		}
