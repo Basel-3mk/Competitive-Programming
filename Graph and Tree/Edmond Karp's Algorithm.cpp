@@ -24,28 +24,34 @@ int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
 vector<vector<int>> g;
+vector<array<int, 3>> edges;
 vector<int> par;
-vector<vector<ll>> cap;
 int src, dst;
 
-int dfs(int node, ll flow)
+int bfs()
 {
-	if (node == dst)
-		return flow;
+	queue<pair<int, int>> q;
+	q.push(make_pair(src, INT_MAX));
 
-	for (auto c : g[node])
-		if (!par[c] and cap[node][c])
+	while (q.size())
+	{
+		int node = q.front().first, flow = q.front().second;
+		q.pop();
+
+		if (node == dst)
+			return flow;
+
+		for (auto idx : g[node])
 		{
-			par[c] = node;
-			int bottleneck = dfs(c, min(flow, cap[node][c]));
+			int y = edges[idx][1], w = edges[idx][2];
 
-			if (bottleneck)
+			if (par[y] == -1 and w)
 			{
-				cap[node][c] -= bottleneck;
-				cap[c][node] += bottleneck;
-				return bottleneck;
+				par[y] = idx;
+				q.push(make_pair(y, min(flow, w)));
 			}
 		}
+	}
 
 	return 0;
 }
@@ -56,28 +62,43 @@ void Solve()
 	cin >> n >> m;
 
 	g.assign(n + 1, {});
-	par.assign(n + 1, 0);
-	cap.assign(n + 1, vector<ll> (n + 1, 0));
+	par.assign(n + 1, -1);
+	edges.clear();
 	src = 1;
 	dst = n;
 
+	int cnt = 0;
 	for (int i = 0; i < m; ++i)
 	{
 		int x, y, w;
 		cin >> x >> y >> w;
 
-		g[x].push_back(y);
-		g[y].push_back(x);
+		g[x].push_back(cnt++);
+		edges.push_back({ x, y, w });
 
-		cap[x][y] += w;
-		cap[y][x] += 0;
+		g[y].push_back(cnt++);
+		edges.push_back({ y, x, 0 });
 	}
 
 	ll ans = 0;
-	while (int flow = dfs(src, INT_MAX))
+	while (true)
 	{
-		fill(par.begin(), par.end(), 0);
+		fill(par.begin(), par.end(), -1);
+		par[src] = -2;
+
+		int flow = bfs();
+		if (!flow)
+			break;
+
 		ans += flow;
+
+		int node = dst;
+		while (par[node] != -2)
+		{
+			edges[par[node]][2] -= flow;
+			edges[par[node] ^ 1][2] += flow;
+			node = edges[par[node]][0];
+		}
 	}
 
 	cout << ans << endl;
