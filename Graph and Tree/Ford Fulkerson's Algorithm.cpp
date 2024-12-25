@@ -35,10 +35,10 @@ int dfs(int node, int flow)
 
 	for (auto idx : g[node])
 	{
-		int x = edges[idx][0], y = edges[idx][1], w = edges[idx][2];
-		if (!par[y] and w)
+		int y = edges[idx][1], w = edges[idx][2];
+		if (par[y] == -1 and w)
 		{
-			par[y] = x;
+			par[y] = node;
 			int bottleneck = dfs(y, min(flow, w));
 
 			if (bottleneck)
@@ -78,9 +78,15 @@ void Solve()
 	}
 
 	ll ans = 0;
-	while (int flow = dfs(src, INT_MAX))
+	while (true)
 	{
-		fill(par.begin(), par.end(), 0);
+		fill(par.begin(), par.end(), -1);
+		par[src] = -2;
+
+		int flow = dfs(src, INT_MAX);
+		if (!flow)
+			break;
+
 		ans += flow;
 	}
 
