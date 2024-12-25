@@ -62,7 +62,7 @@ void Solve()
 	cin >> n >> m;
 
 	g.assign(n + 1, {});
-	par.assign(n + 1, -1);
+	par.resize(n + 1);
 	edges.clear();
 	src = 1;
 	dst = n;
