@@ -29,13 +29,13 @@ mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
 int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
-vector<vector<int>> dist;
+vector<vector<ll>> dist;
 void Solve()
 {
 	int n, m;
 	cin >> n >> m;
 
-	dist.assign(n + 1, vector<int> (n + 1, INT_MAX));
+	dist.assign(n + 1, vector<ll> (n + 1, LLONG_MAX));
 	for (int i = 1; i <= n; ++i)
 		dist[i][i] = 0;
 
@@ -50,7 +50,7 @@ void Solve()
 	for (int k = 1; k <= n; ++k)
 		for (int i = 1; i <= n; ++i)
 			for (int j = 1; j <= n; ++j)
-				if (dist[i][k] != INT_MAX and dist[k][j] != INT_MAX)
+				if (dist[i][k] != LLONG_MAX and dist[k][j] != LLONG_MAX)
 					dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
 
 	bool neg_cycle = false;
@@ -67,7 +67,7 @@ void Solve()
 		{
 			for (int j = 1; j <= n; ++j)
 				if (i != j)
-					if (dist[i][j] == INT_MAX)
+					if (dist[i][j] == LLONG_MAX)
 						cout << "INF" << ' ';
 					else
 						cout << dist[i][j] << ' ';
