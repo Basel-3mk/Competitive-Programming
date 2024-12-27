@@ -29,7 +29,7 @@ int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
 vector<vector<pair<int, int>>> g;
-vector<int> dist;
+vector<ll> dist;
 
 void Solve()
 {
@@ -37,7 +37,7 @@ void Solve()
 	cin >> n >> m;
 
 	g.assign(n + 1, {});
-	dist.assign(n + 1, INT_MAX);
+	dist.assign(n + 1, LLONG_MAX);
 
 	for (int i = 0; i < m; ++i)
 	{
