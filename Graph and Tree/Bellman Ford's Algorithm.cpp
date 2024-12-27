@@ -29,7 +29,7 @@ int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
 int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
 
 vector<vector<int>> g;
-vector<int> dist;
+vector<ll> dist;
 
 void Solve()
 {
@@ -38,7 +38,7 @@ void Solve()
 
 	// Edge List.
 	g.clear();
-	dist.assign(n + 1, INT_MAX);
+	dist.assign(n + 1, LLONG_MAX);
 
 	for (int i = 0; i < m; ++i)
 	{
@@ -50,7 +50,7 @@ void Solve()
 
 	// It should be 0 not INT_MIN, because we will add the dist of it to the dist of it's childs.
 	dist[1] = 0;
-	
+
 	// If the edges of the source node are the first in the edge list.
 	// Then the edges of the childs of the source node and so on.
 	// Then it is sorted (No need to relax the edges).
@@ -58,25 +58,26 @@ void Solve()
 	// Because each dist of a node depends on the dist of an other node.
 	// If the dist of the other node is not calculated, then we cannot find out the dist of the current node.
 	// That's why we need to relax the edges.
-	for (int i = 0; i < n - 1; ++i)
+	for (int i = 0; i < n; ++i)
 		for (auto edge : g)
 		{
 			int x = edge[0], y = edge[1], w = edge[2];
 
-			// dist[x] != INT_MAX to prevent overflow in dist[x] + w.
+			// dist[x] != LLONG_MAX to prevent overflow in dist[x] + w.
 			// We can fix it also by making dist long long instead of int.
-			if (dist[x] != INT_MAX and dist[x] + w < dist[y])
+			if (dist[x] != LLONG_MAX and dist[x] + w < dist[y])
 				dist[y] = dist[x] + w;
 		}
 
 	bool neg_cycle = false;
-	for (auto edge : g)
-	{
-		int x = edge[0], y = edge[1], w = edge[2];
+	for (int i = 0; i < n; ++i)
+		for (auto edge : g)
+		{
+			int x = edge[0], y = edge[1], w = edge[2];
 
-		if (dist[x] != INT_MAX and dist[x] + w < dist[y])
-			neg_cycle = true;
-	}
+			if (dist[x] != LLONG_MAX and dist[x] + w < dist[y])
+				neg_cycle = true;
+		}
 
 	if (neg_cycle)
 		cout << "IMPOSSIBLE" << endl;
