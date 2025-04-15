@@ -31,6 +31,7 @@ vector<int> lvl;
 void dfs(int node, int par)
 {
 	// The (2 ^ i)th ancestor = The (2 ^ (i - 1))th ancestor of the (2 ^ (i - 1))th ancestor.
+	anc[node][0] = par;
 	for (int i = 1; i < 32; ++i)
 		anc[node][i] = anc[anc[node][i - 1]][i - 1];
 
@@ -38,7 +39,6 @@ void dfs(int node, int par)
 		if (c != par)
 		{
 			lvl[c] = lvl[node] + 1;
-			anc[c][0] = node;
 			dfs(c, node);
 		}
 }
