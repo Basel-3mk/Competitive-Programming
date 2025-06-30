@@ -1,4 +1,5 @@
-// Given undirected unweighted connected graph, print the shortest path from node 1 to each other node.
+// You are given an undirected, unweighted, and connected graph consisting of n nodes and m edges. The nodes are numbered from 1 to n.
+// Your task is to compute the shortest distance (in number of edges) from node 1 to every other node in the graph.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
