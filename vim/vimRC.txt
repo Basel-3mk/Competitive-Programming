@@ -72,10 +72,17 @@ function! s:ChooseTemplate()
     
     " Process selection
     if choice > 0 && choice <= len(templates)
-        " Insert at beginning of file
-        execute '0read ' . fnameescape(templates[choice - 1])
-        " Move cursor to original position after insertion
-        normal! G
+        " Save cursor position
+        let save_cursor = getcurpos()
+        
+        " Read template content
+        let template_lines = readfile(templates[choice - 1])
+        
+        " Insert lines at cursor position
+        call append(save_cursor[1] - 1, template_lines)
+        
+        " Restore cursor to original line position
+        call cursor(save_cursor[1] + len(template_lines), save_cursor[2])
     endif
 endfunction
 
@@ -110,7 +117,7 @@ endfunction
 
 " ───────────────────────────────────────────────────
 " Force literal insert of any closing bracket
-" (bypass Auto‑Pairs’ skip‑ahead behavior)
+" (bypass Auto‑Pairs' skip‑ahead behavior)
 " ───────────────────────────────────────────────────
 " For round, square, curly, and angle closers:
 inoremap ) )
@@ -124,7 +131,6 @@ inoremap <S-[> [
 inoremap <S-]> ]
 inoremap <S-{> {
 inoremap <S-}> }
-
 
 if has("gui_running")
   set lines=999 columns=999
