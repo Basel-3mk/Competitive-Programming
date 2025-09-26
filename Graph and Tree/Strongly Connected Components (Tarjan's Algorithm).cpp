@@ -3,11 +3,9 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <chrono>
 
 using namespace std;
 using namespace __gnu_pbds;
-using namespace chrono;
 
 #define endl '\n'
 #define ll long long
@@ -15,101 +13,90 @@ using namespace chrono;
 template<typename data_type>
 using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
 
-mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
+int dx[16] = { 0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2 };
+int dy[16] = { 1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1 };
 
-int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
-int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
+void Solve() {
+    int n, m;
+    cin >> n >> m;
 
-vector<vector<int>> g, scc;
-vector<bool> v;
-vector<int> lt, dt, sccn;
-stack<int> st;
-int timer, cnt;
+    vector<vector<int>> adjList(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
 
-void dfs(int node, int par)
-{
-        v[node] = true;
-        lt[node] = dt[node] = timer++;
-        st.push(node);
-        for(auto c : g[node])
-        {
-            if(!v[c])
-            {
-                dfs(c);
-                lt[node] = min(lt[node], lt[c]);
+        adjList[u].push_back(v);
+    }
+
+    vector<int> vis(n + 1), discoveryTime(n + 1), lowestTime(n + 1), nodeToComponent(n + 1);
+    stack<int> curNodes;
+    int curTime = 0;
+    vector<vector<int>> componentToNode;
+
+    function<void(int)> sccDFS = [&](int curNode) -> void {
+        vis[curNode] = 1;
+        discoveryTime[curNode] = lowestTime[curNode] = curTime++;
+        curNodes.push(curNode);
+
+        for (int nextNode : adjList[curNode]) {
+            if (vis[nextNode] == 0) {
+                sccDFS(nextNode);
+
+                lowestTime[curNode] = min(lowestTime[curNode], lowestTime[nextNode]);
             }
-            
-            else if(c != par)
-                lt[node] = min(lt[node], dt[c]);
+
+            else if (vis[nextNode] == 1) {
+                lowestTime[curNode] = min(lowestTime[curNode], discoveryTime[nextNode]);
+            }
         }
-    
-        if(lt[node] == dt[node])
-        {
-            scc.push_back({});
-            int cur;
-            do
-            {
-                cur = st.top();
-                st.pop();
-                
-                sccn[cur] = cnt;
-                scc[cnt].push_back(cur);
-            } while(cur != node);
-            
-            cnt++;
+
+        if (discoveryTime[curNode] == lowestTime[curNode]) {
+            componentToNode.push_back({});
+
+            int lastNode;
+            do {
+                lastNode = curNodes.top();
+                curNodes.pop();
+
+                vis[lastNode] = 2;
+
+                nodeToComponent[lastNode] = componentToNode.size() - 1;
+                componentToNode.back().push_back(lastNode);
+            } while (lastNode != curNode);
         }
+        };
+
+    for (int i = 1; i <= n; ++i) {
+        if (!vis[i]) {
+            sccDFS(i);
+        }
+    }
+
+    for (int i = 1; i <= n; ++i) {
+        cout << i << " --> " << nodeToComponent[i] << endl;
+    }
+
+    for (int i = 0; i < componentToNode.size(); ++i) {
+        for (int curNode : componentToNode[i]) {
+            cout << curNode << ' ';
+        }
+
+        cout << endl;
+    }
 }
 
-void Solve()
-{
-        int n, m;
-        cin >> n >> m;
+int32_t main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
-        g.assign(n + 1, {});
-        v.assign(n + 1, false);
-        dt.assign(n + 1, 0);
-        lt.assign(n + 1, 0);
-        scc.clear();
-        sccn.assign(n + 1, -1);
-        timer = 0;
-        cnt = 0;
-
-        for (int i = 0; i < m; ++i)
-        {
-                int x, y;
-                cin >> x >> y;
-                g[x].push_back(y);
-        }
-    
-        for(int i = 1; i <= n; ++i)
-            if(!v[i])
-                dfs(i, 0);
-    
-        for(auto d1 : scc)
-        {
-            for(auto d2 : d1)
-                cout << d2 << ' ';
-            cout << endl;
-        }
-
-        for(int i = 1; i <= n; ++i)
-                cout << i << ' ' << sccn[i] << endl;
-}
-
-int32_t main()
-{
-        ios_base::sync_with_stdio(0);
-        cin.tie(0);
-        cout.tie(0);
-
-#ifndef ONLINE_JUDGE
-        freopen("C:\\Sublime\\input.txt", "r", stdin);
-        freopen("C:\\Sublime\\output.txt", "w", stdout);
-#endif
-
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; ++i) {
         Solve();
+    }
 
-        cerr << "Basel Al-Jabari." << endl;
+    cerr << "Basel Al-Jabari." << endl;
 
-        return 0;
+    return 0;
 }
