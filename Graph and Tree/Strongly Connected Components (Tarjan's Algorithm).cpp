@@ -1,3 +1,7 @@
+// Given directed graph with n nodes and m edges,
+// find strongly connected components and print each node belongs to which component,
+// and print the nodes of each component.
+
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
