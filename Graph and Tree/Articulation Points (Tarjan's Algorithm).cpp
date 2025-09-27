@@ -42,38 +42,38 @@ void Solve() {
         discoveryTime[curNode] = lowestTime[curNode] = curTime++;
 
         int nextNodes = 0;
-        for(int nextNode : adjList[curNode]) {
-            if(!vis[nextNode]) {
+        for (int nextNode : adjList[curNode]) {
+            if (!vis[nextNode]) {
                 nextNodes++;
 
                 apDFS(nextNode, curNode);
 
                 lowestTime[curNode] = min(lowestTime[curNode], lowestTime[nextNode]);
 
-                if(prevNode and discoveryTime[curNode] <= lowestTime[nextNode]) {
+                if (prevNode and discoveryTime[curNode] <= lowestTime[nextNode]) {
                     articulationPoints.insert(curNode);
                 }
             }
 
-            else if(nextNode != prevNode) {
+            else if (nextNode != prevNode) {
                 lowestTime[curNode] = min(lowestTime[curNode], discoveryTime[nextNode]);
             }
         }
 
-        if(!prevNode) {
-            if(nextNodes > 1) {
+        if (!prevNode) {
+            if (nextNodes > 1) {
                 articulationPoints.insert(curNode);
             }
         }
         };
 
-    for(int i = 1; i <= n; ++i) {
-        if(!vis[i]) {
+    for (int i = 1; i <= n; ++i) {
+        if (!vis[i]) {
             apDFS(i, 0);
         }
     }
 
-    for(int node : articulationPoints) {
+    for (int node : articulationPoints) {
         cout << node << ' ';
     }
 
