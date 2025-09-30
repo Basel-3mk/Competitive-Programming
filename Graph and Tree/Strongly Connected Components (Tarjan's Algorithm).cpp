@@ -32,24 +32,26 @@ void Solve() {
         adjList[u].push_back(v);
     }
 
-    vector<int> vis(n + 1), discoveryTime(n + 1), lowestTime(n + 1), nodeToComponent(n + 1);
-    stack<int> curNodes;
+    vector<bool> vis(n + 1), inStack(n + 1);
+    vector<int> discoveryTime(n + 1), lowestTime(n + 1), nodeToComponent(n + 1);
     int curTime = 0;
+    stack<int> curNodes;
     vector<vector<int>> componentToNode;
 
     function<void(int)> sccDFS = [&](int curNode) -> void {
-        vis[curNode] = 1;
+        vis[curNode] = true;
+        inStack[curNode] = true;
         discoveryTime[curNode] = lowestTime[curNode] = curTime++;
         curNodes.push(curNode);
 
         for (int nextNode : adjList[curNode]) {
-            if (vis[nextNode] == 0) {
+            if (!vis[nextNode]) {
                 sccDFS(nextNode);
 
                 lowestTime[curNode] = min(lowestTime[curNode], lowestTime[nextNode]);
             }
 
-            else if (vis[nextNode] == 1) {
+            else if (inStack[nextNode]) {
                 lowestTime[curNode] = min(lowestTime[curNode], discoveryTime[nextNode]);
             }
         }
@@ -62,7 +64,7 @@ void Solve() {
                 lastNode = curNodes.top();
                 curNodes.pop();
 
-                vis[lastNode] = 2;
+                inStack[lastNode] = false;
 
                 nodeToComponent[lastNode] = componentToNode.size() - 1;
                 componentToNode.back().push_back(lastNode);
