@@ -1,6 +1,5 @@
 // Given undirected graph with n nodes and m edges,
-// find biconnected components and print each node belongs to which component,
-// and print the nodes of each component.
+// and print the edges of each component.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
@@ -35,38 +34,39 @@ void Solve() {
 
     vector<bool> vis(n + 1);
     vector<int> discoveryTime(n + 1), lowestTime(n + 1), nodeToComponent(n + 1);
-    stack<int> curNodes;
+    stack<array<int, 2>> curEdges;
     int curTime = 0;
-    vector<vector<int>> componentToNode;
+    vector<vector<array<int, 2>>> componentToEdge;
 
     function<void(int, int)> sccDFS = [&](int curNode, int prevNode) -> void {
         vis[curNode] = 1;
         discoveryTime[curNode] = lowestTime[curNode] = curTime++;
-        curNodes.push(curNode);
 
         for (int nextNode : adjList[curNode]) {
             if (!vis[nextNode]) {
-                sccDFS(nextNode);
+                curEdges.push({ curNode, nextNode });
+                sccDFS(nextNode, curNode);
 
                 lowestTime[curNode] = min(lowestTime[curNode], lowestTime[nextNode]);
+
+                if (discoveryTime[curNode] <= lowestTime[nextNode]) {
+                    componentToEdge.push_back({});
+
+                    int u, v;
+                    do {
+                        u = curEdges.top()[0];
+                        v = curEdges.top()[1];
+                        curEdges.pop();
+
+                        componentToEdge.back().push_back({ u, v });
+                    } while (make_pair(u, v) != make_pair(curNode, nextNode));
+                }
             }
 
-            else if (nextNode != prevNode) {
+            else if (nextNode != prevNode and discoveryTime[nextNode] < discoveryTime[curNode]) {
+                curEdges.push({ curNode, nextNode });
                 lowestTime[curNode] = min(lowestTime[curNode], discoveryTime[nextNode]);
             }
-        }
-
-        if (discoveryTime[curNode] == lowestTime[curNode]) {
-            componentToNode.push_back({});
-
-            int lastNode;
-            do {
-                lastNode = curNodes.top();
-                curNodes.pop();
-
-                nodeToComponent[lastNode] = componentToNode.size() - 1;
-                componentToNode.back().push_back(lastNode);
-            } while (lastNode != curNode);
         }
         };
 
@@ -76,13 +76,18 @@ void Solve() {
         }
     }
 
-    for (int i = 1; i <= n; ++i) {
-        cout << i << " --> " << nodeToComponent[i] << endl;
+    if (curEdges.size()) {
+        componentToEdge.push_back({});
+
+        while (curEdges.size()) {
+            componentToEdge.back().push_back(curEdges.top());
+            curEdges.pop();     
+        }
     }
 
-    for (int i = 0; i < componentToNode.size(); ++i) {
-        for (int curNode : componentToNode[i]) {
-            cout << curNode << ' ';
+    for (vector<array<int, 2>>& component : componentToEdge) {
+        for (auto [u, v] : component) {
+            cout << u << " <--> " << v << ' ';
         }
 
         cout << endl;
