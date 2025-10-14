@@ -85,7 +85,7 @@ void Solve() {
         }
     }
 
-    for (vector<array<int, 2>>& component : componentToEdge) {
+    for (vector<array<int, 2>> &component : componentToEdge) {
         for (auto [u, v] : component) {
             cout << u << " <--> " << v << ' ';
         }
