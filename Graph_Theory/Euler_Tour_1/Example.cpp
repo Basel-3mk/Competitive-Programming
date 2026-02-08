@@ -44,9 +44,6 @@ void dfs(int node, int par)
 	tout[node] = timer++;
 }
 
-// Why Euler's Tour 1 instead of 3, because we need the tout to be different.
-// Tour 1 make it, but in Tour 3 the tout can be the same for different nodes.
-
 void Solve()
 {
 	int n, q;
