@@ -1,128 +1,114 @@
-// Given n elements, and q queries, there's two types of operations:
+// Given n elements, and q queries, there are two types of operations:
 // 1. Update k-th index to u.
 // 2. Output the sum from a to b.
-// a, b, k are 1-base.
+// a, b, k are 0-base.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-#include <chrono>
 
 using namespace std;
 using namespace __gnu_pbds;
-using namespace chrono;
 
 #define endl '\n'
 #define ll long long
 
-template<typename data_type>
+template <typename data_type>
 using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
 
-mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
+int dx[16] = {0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2};
+int dy[16] = {1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1};
 
-int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
-int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
+class Fenwick_Tree {
+ private:
+  int _n;
+  vector<ll> _fenwickTree;
 
-vector<int> a;
+ public:
+  Fenwick_Tree(int n, const vector<int> &a) {
+    _n = n;
+    _fenwickTree.assign(n + 1, 0);
+    Build(a);
+  }
 
-struct fenwick
-{
-	int n;
-	vector<ll> ft;
+  void Build(const vector<int> &a) {
+    for (int i = 1; i <= _n; ++i) {
+      int index = i;
+      while (index <= _n) {
+        _fenwickTree[index] += a[i - 1];
+        index += index & -index;
+      }
+    }
+  }
 
-	fenwick(int n)
-	{
-		this->n = n + 1;
-		ft.resize(n + 1);
-	}
+  void Update(int index, int newValue, vector<int> &a) {
+    int delta = newValue - a[index];
+    a[index] = newValue;
 
-	void build()
-	{
-		for (int i = 1; i <= n; ++i)
-		{
-			int temp = i;
-			while (temp <= n)
-			{
-				ft[temp] += a[i - 1];
-				temp += temp & -temp;
-			}
-		}
-	}
+    index++;
+    while (index <= _n) {
+      _fenwickTree[index] += delta;
+      index += index & -index;
+    }
+  }
 
-	void set(int index, int val)
-	{
-		int delta = val - a[index - 1];
-		a[index - 1] = val;
+  ll Get(int index) {
+    ll ans = 0;
 
-		while (index <= n)
-		{
-			ft[index] += delta;
-			index += index & -index; // Add last set(1) bit.
-		}
-	}
+    index++;
+    while (index) {
+      ans += _fenwickTree[index];
+      index -= index & (index - 1);
+    }
 
-	ll get(int index)
-	{
-		ll ans = 0;
-		while (index)
-		{
-			ans += ft[index];
-			index -= index & -index; // Remove last set(1) bit.
-		}
-
-		return ans;
-	}
+    return ans;
+  }
 };
 
-void Solve()
-{
-	int n, q;
-	cin >> n >> q;
+void Solve() {
+  int n, q;
+  cin >> n >> q;
 
-	a.assign(n, 0);
-	for (int i = 0; i < n; ++i)
-		cin >> a[i];
+  vector<int> a(n);
+  for (int i = 0; i < n; ++i) {
+    cin >> a[i];
+  }
 
-	fenwick tree(n);
-	tree.build();
+  Fenwick_Tree fenwickTree(n, a);
+  for (int i = 1; i <= q; ++i) {
+    int type;
+    cin >> type;
 
-	while (q--)
-	{
-		int type;
-		cin >> type;
+    if (type == 1) {
+      int k, u;
+      cin >> k >> u;
 
-		if (type == 1)
-		{
-			int k, u;
-			cin >> k >> u;
-			tree.set(k, u);
-		}
+      fenwickTree.Update(k, u, a);
+    }
 
-		else
-		{
-			int x, y;
-			cin >> x >> y;
-			cout << tree.get(y) - tree.get(x - 1) << endl;
-		}
-	}
+    else if (type == 2) {
+      int a, b;
+      cin >> a >> b;
+
+      cout << fenwickTree.Get(b) - fenwickTree.Get(a - 1) << endl;
+    }
+  }
 }
 
-int32_t main()
-{
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
+int32_t main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
 
-#ifndef ONLINE_JUDGE
-	freopen("C:\\Sublime\\input.txt", "r", stdin);
-	freopen("C:\\Sublime\\output.txt", "w", stdout);
-#endif
+  int t = 1;
+  // cin >> t;
+  for (int i = 1; i <= t; ++i) {
+    Solve();
+  }
 
-	Solve();
+  cerr << "Basel Al-Jabari." << endl;
 
-	cerr << "Basel Al-Jabari." << endl;
-
-	return 0;
+  return 0;
 }

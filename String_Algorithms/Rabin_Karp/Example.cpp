@@ -34,13 +34,13 @@ void Solve() {
       };
 
       function<int(int, int)> Power = [&](int number, int power) -> int {
-        int numberPower = 1, dummyValue = number;
+        ll numberPower = 1, temp = number;
         while (power) {
           if (power & 1) {
-            numberPower = (1LL * numberPower * dummyValue) % MOD;
+            numberPower = (numberPower * temp) % MOD;
           }
 
-          dummyValue = (1LL * dummyValue * dummyValue) % MOD;
+          temp = (temp * temp) % MOD;
           power >>= 1;
         }
 
