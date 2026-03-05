@@ -10,28 +10,27 @@ using namespace __gnu_pbds;
 #define endl '\n'
 #define ll long long
 
-template<typename data_type>
+template <typename data_type>
 using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
 
-int dx[16] = { 0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2 };
-int dy[16] = { 1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1 };
+int dx[16] = {0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2};
+int dy[16] = {1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1};
 
 void Solve() {
-    
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
 
-    int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; ++i) {
-        Solve();
-    }
+  int t = 1;
+  // cin >> t;
+  for (int i = 1; i <= t; ++i) {
+    Solve();
+  }
 
-    cerr << "Basel Al-Jabari." << endl;
+  cerr << "Basel Al-Jabari." << endl;
 
-    return 0;
+  return 0;
 }
