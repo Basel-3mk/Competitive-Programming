@@ -1,7 +1,7 @@
 // Given n elements, and q queries, there are two types of operations:
 // 1. Update k-th index to u.
-// 2. Output the sum from a to b.
-// a, b, k are 0-base.
+// 2. Output the sum from x to y.
+// x, y, k are 0-base.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
@@ -89,10 +89,10 @@ void Solve() {
     }
 
     else if (type == 2) {
-      int a, b;
-      cin >> a >> b;
+      int x, y;
+      cin >> x >> y;
 
-      cout << fenwickTree.Get(b) - fenwickTree.Get(a - 1) << endl;
+      cout << fenwickTree.Get(y) - fenwickTree.Get(x - 1) << endl;
     }
   }
 }
