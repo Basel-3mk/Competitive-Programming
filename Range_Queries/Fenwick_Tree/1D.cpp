@@ -60,7 +60,7 @@ class Fenwick_Tree {
     index++;
     while (index) {
       ans += _fenwickTree[index];
-      index -= index & (index - 1);
+      index -= index & -index;
     }
 
     return ans;
