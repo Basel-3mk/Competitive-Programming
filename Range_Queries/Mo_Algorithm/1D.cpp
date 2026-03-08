@@ -3,130 +3,131 @@
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
-#include <bits/extc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 
 using namespace std;
 using namespace __gnu_pbds;
-using namespace chrono;
 
 #define endl '\n'
 #define ll long long
 
-template<typename data_type>
+template <typename data_type>
 using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
 
-mt19937 rng(high_resolution_clock::now().time_since_epoch().count());
+int dx[16] = {0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2};
+int dy[16] = {1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1};
 
-int dx[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
-int dy[8] = { 1, 0, -1, 0, 1, 1, -1, -1 };
+class Query {
+ public:
+  int l, r, block, index;
 
-struct query
-{
-    int l, r, block, index;
-
-    bool operator<(query &a) const
-    {
-        return make_pair(block, r) < make_pair(a.block, a.r);
-    }
+  bool operator<(Query &query) const {
+    return make_pair(this->block, this->r) < make_pair(query.block, query.r);
+  }
 };
 
-vector<int> arr;
-unordered_map<int, int> hashMap;
-int temp;
+void Solve() {
+  int n, q;
+  cin >> n >> q;
 
-void add(int index)
-{
-    int num = arr[index];
-    if (hashMap.count(num))
-        if (hashMap[num] == num)
-            temp--;
+  vector<int> a(n);
+  for (int i = 0; i < n; ++i) {
+    cin >> a[i];
+  }
 
-    hashMap[num]++;
+  int blockCnt = sqrt(n) + 1;
+  vector<Query> queries(q);
+  for (int i = 0; i < q; ++i) {
+    int l, r;
+    cin >> l >> r;
 
-    if (hashMap[num] == num)
-        temp++;
-}
+    l--;
+    r--;
 
-void remove(int index)
-{
-    int num = arr[index];
-    if (hashMap.count(num))
-        if (hashMap[num] == num)
-            temp--;
+    queries[i].index = i;
+    queries[i].l = l;
+    queries[i].r = r;
+    queries[i].block = l / blockCnt;
+  }
 
-    hashMap[num]--;
+  sort(queries.begin(), queries.end());
 
-    if (hashMap[num] == num)
-        temp++;
-}
+  unordered_map<int, int> freq;
+  int curAns = 0;
 
-void Solve()
-{
-    int n, q;
-    cin >> n >> q;
-
-    arr.assign(n, 0);
-    for (int i = 0; i < n; ++i)
-        cin >> arr[i];
-
-    int blocks = sqrt(n) + 1;
-    vector<query> qarr(q);
-    for (int i = 0; i < q; ++i)
-    {
-        int l, r;
-        cin >> l >> r;
-
-        l--;
-        r--;
-
-        qarr[i].index = i;
-        qarr[i].l = l;
-        qarr[i].r = r;
-        qarr[i].block = l / blocks;
+  function<void(int)> Add = [&](int index) -> void {
+    int curNum = a[index];
+    if (freq.count(curNum)) {
+      if (freq[curNum] == curNum) {
+        curAns--;
+      }
     }
 
-    sort(qarr.begin(), qarr.end());
-    int start = qarr[0].l, end = qarr[0].l;
-    temp = 0;
-    vector<int> ans(q);
-    for (int i = 0; i < q; ++i)
-    {
-        while (end > qarr[i].r + 1)
-            remove(--end);
+    freq[curNum]++;
+    if (freq[curNum] == curNum) {
+      curAns++;
+    }
+  };
 
-        while (end <= qarr[i].r)
-            add(end++);
+  function<void(int)> Remove = [&](int index) -> void {
+    int curNum = a[index];
 
-        while (start < qarr[i].l)
-            remove(start++);
-
-        while (start > qarr[i].l)
-            add(--start);
-
-        ans[qarr[i].index] = temp;
+    if (freq.count(curNum)) {
+      if (freq[curNum] == curNum) {
+        curAns--;
+      }
     }
 
-    for (int i = 0; i < q; ++i)
-        cout << ans[i] << endl;
+    freq[curNum]--;
+    if (freq[curNum] == curNum) {
+      curAns++;
+    }
+  };
+
+  vector<int> ans(q);
+  int curL = queries[0].l, curR = queries[0].l;
+  for (int i = 0; i < q; ++i) {
+    while (curL > queries[i].l) {
+      curL--;
+      Add(curL);
+    }
+
+    while (curR > queries[i].r + 1) {
+      curR--;
+      Remove(curR);
+    }
+
+    while (curL < queries[i].l) {
+      Remove(curL);
+      curL++;
+    }
+
+    while (curR < queries[i].r + 1) {
+      Add(curR);
+      curR++;
+    }
+
+    ans[queries[i].index] = curAns;
+  }
+
+  for (int i = 0; i < q; ++i) {
+    cout << ans[i] << endl;
+  }
 }
 
-int32_t main()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+int32_t main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  cout.tie(0);
 
-#ifndef ONLINE_JUDGE
-    freopen("C:\\Sublime\\input.txt", "r", stdin);
-    freopen("C:\\Sublime\\output.txt", "w", stdout);
-#endif
+  int t = 1;
+  // cin >> t;
+  for (int i = 1; i <= t; ++i) {
+    Solve();
+  }
 
-    int t = 1;
-    // cin >> t;
-    while (t--)
-        Solve();
+  cerr << "Basel Al-Jabari." << endl;
 
-    cerr << "Basel Al-Jabari." << endl;
-
-    return 0;
+  return 0;
 }
