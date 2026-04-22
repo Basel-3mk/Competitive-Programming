@@ -2,7 +2,7 @@
 // 1. Update k-th index to val.
 // 2. Update [l, r] indices to val.
 // 3. Output the sum from a to b.
-// a, b, k are 1-base.
+// a, b, k, l, r are 1-base.
 
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
