@@ -1,9 +1,6 @@
 // Given a weighted connected undirected graph with n nodes, and m edges (1-base index).
 // Output the sum of the minimum spanning tree.
 
-// Given a weighted connected undirected graph with n nodes, and m edges (1-base index).
-// Output the sum of the minimum spanning tree.
-
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
