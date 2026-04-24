@@ -28,15 +28,6 @@ class Segment_Tree {
   vector<Node> segmentTree, lazyPropagation;
   vector<bool> isChange;
 
- public:
-  Segment_Tree(int n, const vector<int> &a) {
-    _n = n;
-    segmentTree.resize(n * 4, Node(0));
-    lazyPropagation.resize(n * 4, Node(0));
-    isChange.resize(n * 4, false);
-    Build(0, _n - 1, 0, a);
-  }
-
   void Build(int curL, int curR, int curNode, const vector<int> &a) {
     if (curL == curR) {
       segmentTree[curNode].curVal = a[curL];
@@ -65,10 +56,6 @@ class Segment_Tree {
     ll Q1 = Query(curL, curM, 2 * curNode + 1, requiredL, requiredR);
     ll Q2 = Query(curM + 1, curR, 2 * curNode + 2, requiredL, requiredR);
     return Q1 + Q2;
-  }
-
-  ll Query(int requiredL, int requiredR) {
-    return Query(0, _n - 1, 0, requiredL, requiredR);
   }
 
   void Push(int curL, int curR, int curNode) {
@@ -109,8 +96,21 @@ class Segment_Tree {
     segmentTree[curNode].curVal = segmentTree[curNode * 2 + 1].curVal + segmentTree[curNode * 2 + 2].curVal;
   }
 
+ public:
+  Segment_Tree(int n, const vector<int> &a) {
+    _n = n;
+    segmentTree.resize(n * 4, Node(0));
+    lazyPropagation.resize(n * 4, Node(0));
+    isChange.resize(n * 4, false);
+    Build(0, _n - 1, 0, a);
+  }
+
   void Update(int requiredL, int requiredR, int newVal) {
     Update(0, _n - 1, 0, requiredL, requiredR, newVal);
+  }
+
+  ll Query(int requiredL, int requiredR) {
+    return Query(0, _n - 1, 0, requiredL, requiredR);
   }
 };
 

@@ -26,13 +26,6 @@ class Segment_Tree {
   int _n;
   vector<Node> segmentTree;
 
- public:
-  Segment_Tree(int n, const vector<int> &a) {
-    _n = n;
-    segmentTree.resize(n * 4, Node(0));
-    Build(0, _n - 1, 0, a);
-  }
-
   void Build(int curL, int curR, int curNode, const vector<int> &a) {
     if (curL == curR) {
       segmentTree[curNode].curVal = a[curL];
@@ -61,10 +54,6 @@ class Segment_Tree {
     return Q1 + Q2;
   }
 
-  ll Query(int requiredL, int requiredR) {
-    return Query(0, _n - 1, 0, requiredL, requiredR);
-  }
-
   void Update(int curL, int curR, int curNode, int requiredLeaf, int newVal) {
     if (curL == requiredLeaf and curR == requiredLeaf) {
       segmentTree[curNode].curVal = newVal;
@@ -81,6 +70,17 @@ class Segment_Tree {
     }
 
     segmentTree[curNode].curVal = segmentTree[curNode * 2 + 1].curVal + segmentTree[curNode * 2 + 2].curVal;
+  }
+
+ public:
+  Segment_Tree(int n, const vector<int> &a) {
+    _n = n;
+    segmentTree.resize(n * 4, Node(0));
+    Build(0, _n - 1, 0, a);
+  }
+
+  ll Query(int requiredL, int requiredR) {
+    return Query(0, _n - 1, 0, requiredL, requiredR);
   }
 
   void Update(int requiredLeaf, int newVal) {
