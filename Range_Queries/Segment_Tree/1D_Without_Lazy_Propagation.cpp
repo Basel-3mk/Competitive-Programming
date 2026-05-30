@@ -12,31 +12,30 @@ using namespace std;
 #define endl '\n'
 #define ll long long
 
-class Node {
- public:
-  ll curVal;
-
-  Node(int newVal) {
-    curVal = newVal;
-  }
-};
-
 class Segment_Tree {
- private:
+private:
   int _n;
-  vector<Node> segmentTree;
+  vector<ll> _segmentTree;
+
+  void Merge(int curNode) {
+    _segmentTree[curNode] = _segmentTree[2 * curNode + 1] + _segmentTree[2 * curNode + 2];
+  }
+
+  ll Operation(ll Q1, ll Q2) {
+    return Q1 + Q2;
+  }
 
   void Build(int curL, int curR, int curNode, const vector<int> &a) {
     if (curL == curR) {
-      segmentTree[curNode].curVal = a[curL];
+      _segmentTree[curNode] = a[curL];
       return;
     }
 
-    int curM = (curL + curR) / 2;
-    Build(curL, curM, 2 * curNode + 1, a);
-    Build(curM + 1, curR, 2 * curNode + 2, a);
+    int curMid = (curL + curR) / 2;
+    Build(curL, curMid, 2 * curNode + 1, a);
+    Build(curMid + 1, curR, 2 * curNode + 2, a);
 
-    segmentTree[curNode].curVal = segmentTree[curNode * 2 + 1].curVal + segmentTree[curNode * 2 + 2].curVal;
+    Merge(curNode);
   }
 
   ll Query(int curL, int curR, int curNode, int requiredL, int requiredR) {
@@ -45,37 +44,35 @@ class Segment_Tree {
     }
 
     if (curL >= requiredL and curR <= requiredR) {
-      return segmentTree[curNode].curVal;
+      return _segmentTree[curNode];
     }
 
-    int curM = (curL + curR) / 2;
-    ll Q1 = Query(curL, curM, 2 * curNode + 1, requiredL, requiredR);
-    ll Q2 = Query(curM + 1, curR, 2 * curNode + 2, requiredL, requiredR);
+    int curMid = (curL + curR) / 2;
+    ll Q1 = Query(curL, curMid, 2 * curNode + 1, requiredL, requiredR);
+    ll Q2 = Query(curMid + 1, curR, 2 * curNode + 2, requiredL, requiredR);
     return Q1 + Q2;
   }
 
   void Update(int curL, int curR, int curNode, int requiredLeaf, int newVal) {
     if (curL == requiredLeaf and curR == requiredLeaf) {
-      segmentTree[curNode].curVal = newVal;
+      _segmentTree[curNode] = newVal;
       return;
     }
 
-    int curM = (curL + curR) / 2;
-    if (requiredLeaf <= curM) {
-      Update(curL, curM, 2 * curNode + 1, requiredLeaf, newVal);
+    int curMid = (curL + curR) / 2;
+    if (requiredLeaf <= curMid) {
+      Update(curL, curMid, 2 * curNode + 1, requiredLeaf, newVal);
+    } else {
+      Update(curMid + 1, curR, 2 * curNode + 2, requiredLeaf, newVal);
     }
 
-    else {
-      Update(curM + 1, curR, 2 * curNode + 2, requiredLeaf, newVal);
-    }
-
-    segmentTree[curNode].curVal = segmentTree[curNode * 2 + 1].curVal + segmentTree[curNode * 2 + 2].curVal;
+    _segmentTree[curNode] = _segmentTree[2 * curNode + 1] + _segmentTree[2 * curNode + 2];
   }
 
- public:
-  Segment_Tree(int n, const vector<int> &a) {
-    _n = n;
-    segmentTree.resize(n * 4, Node(0));
+public:
+  Segment_Tree(const vector<int> &a) {
+    _n = a.size();
+    _segmentTree.resize(_n * 4, 0);
     Build(0, _n - 1, 0, a);
   }
 
@@ -83,8 +80,8 @@ class Segment_Tree {
     return Query(0, _n - 1, 0, requiredL, requiredR);
   }
 
-  void Update(int requiredLeaf, int newVal) {
-    Update(0, _n - 1, 0, requiredLeaf, newVal);
+  void Update(int requiredIndex, int newVal) {
+    Update(0, _n - 1, 0, requiredIndex, newVal);
   }
 };
 
@@ -96,21 +93,19 @@ void Solve() {
   for (int i = 0; i < n; ++i)
     cin >> a[i];
 
-  Segment_Tree segmentTree(n, a);
-  while (q--) {
+  Segment_Tree _segmentTree(a);
+  for (int i = 1; i <= q; ++i) {
     int type;
     cin >> type;
 
     if (type == 1) {
       int k, val;
       cin >> k >> val;
-      segmentTree.Update(k - 1, val);
-    }
-
-    else {
-      int x, y;
-      cin >> x >> y;
-      cout << segmentTree.Query(x - 1, y - 1) << endl;
+      _segmentTree.Update(k - 1, val);
+    } else {
+      int a, b;
+      cin >> a >> b;
+      cout << _segmentTree.Query(a - 1, b - 1) << endl;
     }
   }
 }
