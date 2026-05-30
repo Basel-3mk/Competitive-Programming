@@ -6,61 +6,56 @@
 // The Messenger of Allah (Peace and blessings be upon him) said: "Whoever is humble for the sake of Allah, Allah will raise him".
 
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
 
 using namespace std;
-using namespace __gnu_pbds;
 
 #define endl '\n'
 #define ll long long
 
-template <typename data_type>
-using ordered_set = tree<data_type, null_type, less<data_type>, rb_tree_tag, tree_order_statistics_node_update>;
-
-int dx[16] = {0, 1, 0, -1, -1, 1, 1, -1, -1, -1, +1, +1, -2, -2, +2, +2};
-int dy[16] = {1, 0, -1, 0, 1, 1, -1, -1, -2, +2, -2, +2, -1, +1, -1, +1};
-
 class Fenwick_Tree {
- private:
+private:
   int _n;
   vector<ll> _fenwickTree;
 
- public:
+public:
   Fenwick_Tree(int n, const vector<int> &a) {
     _n = n;
     _fenwickTree.assign(n + 1, 0);
     Build(a);
   }
 
+  void Merge(int requiredIndex, int curVal) {
+    _fenwickTree[requiredIndex] += curVal;
+  }
+
   void Build(const vector<int> &a) {
     for (int i = 1; i <= _n; ++i) {
-      int index = i;
-      while (index <= _n) {
-        _fenwickTree[index] += a[i - 1];
-        index += index & -index;
+      int tempIndex = i;
+      while (tempIndex <= _n) {
+        Merge(tempIndex, a[i - 1]);
+        tempIndex += tempIndex & -tempIndex;
       }
     }
   }
 
-  void Update(int index, int newValue, vector<int> &a) {
-    int delta = newValue - a[index];
-    a[index] = newValue;
+  void Update(int requiredIndex, int newVal, vector<int> &a) {
+    int delta = newVal - a[requiredIndex];
+    a[requiredIndex] = newVal;
 
-    index++;
-    while (index <= _n) {
-      _fenwickTree[index] += delta;
-      index += index & -index;
+    requiredIndex++;
+    while (requiredIndex <= _n) {
+      Merge(requiredIndex, delta);
+      requiredIndex += requiredIndex & -requiredIndex;
     }
   }
 
-  ll Get(int index) {
+  ll Get(int requiredIndex) {
     ll ans = 0;
 
-    index++;
-    while (index) {
-      ans += _fenwickTree[index];
-      index -= index & -index;
+    requiredIndex++;
+    while (requiredIndex) {
+      ans += _fenwickTree[requiredIndex];
+      requiredIndex -= requiredIndex & -requiredIndex;
     }
 
     return ans;
@@ -86,9 +81,7 @@ void Solve() {
       cin >> k >> u;
 
       fenwickTree.Update(k, u, a);
-    }
-
-    else if (type == 2) {
+    } else if (type == 2) {
       int x, y;
       cin >> x >> y;
 
